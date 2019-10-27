@@ -1,0 +1,14 @@
+.idea
+dotnetKonf.sln.DotSettings.user
+CommandApi/bin
+CommandApi/obj
+Core.EventStore/bin
+Core.EventStore/obj
+Core.Projections/bin
+Core.Projections/obj
+Core/bin
+Core/obj
+Domain/bin
+Domain/obj
+FixMe/bin
+FixMe/obj
