@@ -23,7 +23,7 @@ namespace CommandApi.Modules.Account.Projections
                         {
                             Id = DocumentId(view.Id),
                             Owner = view.Owner,
-                            Name = view.Name.ToUpperInvariant(),
+                            Name = view.Name,
                             CurrentBalance = 0L,
                         };
                         session.Store(document);
@@ -32,17 +32,17 @@ namespace CommandApi.Modules.Account.Projections
                     case V1.Deposited view:
                         session.Update<ActiveAccountDocument>(DocumentId(view.Id), doc =>
                         {
-                            Console.WriteLine($"Deposit=>{doc.CurrentBalance}");
                             doc.CurrentBalance += view.Amount;
                         });
                         break; 
                     case V1.Withdrew view:
                         session.Update<ActiveAccountDocument>(DocumentId(view.Id), doc =>
                         {
-                            Console.WriteLine($"Withdrew=>{doc.CurrentBalance}");
                             doc.CurrentBalance -= view.Amount;
                         });
                         break;  
+                    #region DO NOT OPEN
+                    /*
                     case V1.WithdrewFix view:
                         session.Update<ActiveAccountDocument>(DocumentId(view.Id), doc =>
                         {
@@ -50,6 +50,8 @@ namespace CommandApi.Modules.Account.Projections
                             doc.CurrentBalance -= view.Amount;
                         });
                         break;  
+                    */ 
+                    #endregion
                     case V1.ChangedOwner view:
                         session.Update<ActiveAccountDocument>(DocumentId(view.Id), doc =>
                             {

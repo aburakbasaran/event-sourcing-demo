@@ -13,6 +13,7 @@ namespace Domain
         private string Owner { get; set; }
         private string Name { get; set; }
         private double CurrentBalance { get; set; }
+        private bool IsDisabled { get; set; }
         
         #endregion
         public static Account Create(Guid id,string owner,string accountName)
@@ -77,6 +78,7 @@ namespace Domain
                     Owner = x.Owner;
                     Name = x.Name;
                     CurrentBalance = 0;
+                    IsDisabled = false;
                     break;
                 case V1.Deposited x:
                     CurrentBalance += x.Amount;
@@ -84,11 +86,11 @@ namespace Domain
                 case V1.Withdrew x:
                     CurrentBalance -= x.Amount;
                     break;
-                case V1.WithdrewFix x:
-                    CurrentBalance -= x.Amount;
-                    break;
                 case V1.ChangedOwner x:
                     Owner = x.NewOwner;
+                    break;
+                case V1.AccountClosed x:
+                    IsDisabled = true;
                     break;
             }
         }
@@ -109,7 +111,7 @@ namespace Domain
         {
             var fee = 0D;
             
-            if (amount > 100)
+            if (amount > 10)
             {
                 fee=  1.40;
             }else if (amount > 1 && amount < 100)
