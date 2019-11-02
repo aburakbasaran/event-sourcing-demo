@@ -1,6 +1,6 @@
 # dotnetKonf 2019
 
-presentation 'here' (https://www.slideshare.net/AlperHankendi1/building-time-machine-with-net-core) 
+presentation here (https://www.slideshare.net/AlperHankendi1/building-time-machine-with-net-core) 
 
 docker-compose.yaml
 ```
