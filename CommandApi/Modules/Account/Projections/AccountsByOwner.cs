@@ -42,6 +42,27 @@ namespace CommandApi.Modules.Account.Projections
                        
                         session.Store(document);
                         break;
+                    case V1.ChangedOwner view:
+                        documentId = DocumentId(view.OldOwner);
+                        //delete account from old owner's document
+                        AccountDocument accountDocument=null;
+                        session.Update<AccountsByOwnerDocument>(documentId, doc =>
+                        {
+                            accountDocument = doc.Accounts.FirstOrDefault(q => q.Id == view.Id);
+                            if (accountDocument != null)
+                                doc.Accounts.Remove(accountDocument);
+                        });
+                        //add account to new owner's document or create the document if needed
+                        document = session.Load<AccountsByOwnerDocument>(DocumentId(view.NewOwner)) ?? 
+                                   new AccountsByOwnerDocument
+                                    {
+                                        Id = DocumentId(view.NewOwner),
+                                        Owner = view.NewOwner,
+                                        Accounts = new List<AccountDocument>()
+                                    };
+                        document.Accounts.Add(accountDocument);
+                        session.Store(document);
+                        break;
                     case V1.AccountClosed view:
                         
                         documentId = DocumentId(view.Owner);

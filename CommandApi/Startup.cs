@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Raven.Client.Documents.Session;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -19,50 +21,48 @@ namespace CommandApi
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment environment, IConfiguration configuration)
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
             Environment = environment;
             Configuration = configuration;
         }
 
         private IConfiguration Configuration { get; }
-        private IHostingEnvironment Environment { get; }
+        private IWebHostEnvironment Environment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
             ConfigureServicesAsync(services).GetAwaiter().GetResult();
         }
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             #region do not open
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            
-            app.UseMvcWithDefaultRoute();
             app.UseSwagger();
             app.UseSwaggerUI(options => options.SwaggerEndpoint(
                 Configuration["Swagger:Endpoint:Url"], 
                 Configuration["Swagger:Endpoint:Name"]));
-            
-            app.UseMvc();
+
+            app.UseRouting();
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
             #endregion
         }
         private async Task ConfigureServicesAsync(IServiceCollection services)
         {
-            BuildEventStore(services);
+            await BuildEventStore(services);
 
             #region gerekless stuff
-            services
-                .AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(
                     $"v{Configuration["Swagger:Version"]}", 
-                    new Info {
+                    new OpenApiInfo{
                         Title   = Configuration["Swagger:Title"], 
                         Version = $"v{Configuration["Swagger:Version"]}"
                     });

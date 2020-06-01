@@ -1,14 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.2</TargetFramework>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="EventStore.Client">
-            <Version>5.0.2</Version>
+            <Version>5.0.8</Version>
         </PackageReference>
-      <PackageReference Include="RavenDB.Client" Version="4.2.4" />
+      <PackageReference Include="RavenDB.Client" Version="4.2.103" />
     </ItemGroup>
 
     <ItemGroup>

@@ -4,7 +4,7 @@ using Core;
 
 namespace Domain
 {
-    public class Account : Aggregate
+    public class Account : Aggregate //,ISnapshottable<Account>
     {
         #region Properties & Ctor
         public Account()
@@ -45,7 +45,7 @@ namespace Domain
             Apply(new V1.Withdrew
             {
                 Id = Id,
-                Amount = amount,
+                Amount = amount, // + CalculateFee(amount),
                 Description = description,
                 ChangedAt = DateTime.Now
             });
@@ -56,7 +56,8 @@ namespace Domain
             Apply(new V1.ChangedOwner
             {
                 Id=Id,
-                NewOwner = newOwner
+                NewOwner = newOwner,
+                OldOwner = this.Owner
             });
         }
         public void Close()
@@ -125,7 +126,7 @@ namespace Domain
         #endregion
            
         #region snp-acc
-        /*
+        
         public Snapshot TakeSnapshot()
         {
             var snapshot = new AccountSnapshot(Id, Version)
@@ -147,10 +148,10 @@ namespace Domain
 
         public Func<bool> SnapshotFrequency()
         {
-            var frequency = 4;
+            var frequency = 100;
             return () => Version % frequency==0;
         }
-        */
+        
         #endregion
     }
 

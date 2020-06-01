@@ -29,6 +29,7 @@ namespace Domain
         public class ChangedOwner
         {
             public Guid Id { get; set; }
+            public string OldOwner { get; set; }
             public string NewOwner { get; set; }
         }
 
