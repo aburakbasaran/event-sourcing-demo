@@ -1,6 +1,6 @@
 # dotnetKonf 2019
 
-![.NET Core](https://github.com/alperhankendi/event-sourcing-demo/workflows/.NET%20Core/badge.svg)
+![.NET Core](https://github.com/alperhankendi/event-sourcing-demo/workflows/.NET%20Core/badge.svg?event=push)
 
 presentation [here](https://www.slideshare.net/AlperHankendi1/building-time-machine-with-net-core) 
 
