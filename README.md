@@ -1,4 +1,11 @@
-# dotnetKonf 2019
+
+# Check back for the CODE PUZZLE to be announced soon !!!
+
+
+
+
+
+
 
 ![.NET Core](https://github.com/alperhankendi/event-sourcing-demo/workflows/.NET%20Core/badge.svg)![.NET Core](https://github.com/alperhankendi/event-sourcing-demo/workflows/.NET%20Core/badge.svg?event=push)
 
